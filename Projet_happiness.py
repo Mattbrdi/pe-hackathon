@@ -6,7 +6,7 @@ url = "DataForTable2.1WHR2023.csv"
 df = pd.read_csv(url)
 #par soucis de remplissage des cases pour calculer l'indice de bonheur, en remplie les cases vides par les cases précedentes (pas de cases vides en première année)
 df = df.ffill() 
-df.head()
+
 
 
 # + active=""
@@ -20,9 +20,7 @@ for colonne in col :
     max = df[colonne].max()
     min = df[colonne].min()
     df[colonne] = (df[colonne]-min)/(max-min)
-df.head()
 
-df.head()
 
 # +
 df["big indice"] = 0
