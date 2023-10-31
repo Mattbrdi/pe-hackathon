@@ -21,13 +21,13 @@ def graphindice(pays, indice, *autres_indices):
 graphindice("Albania","Social support", "Perceptions of corruption","Freedom to make life choices")
 
 #pour plusieurs pays mais 1 indice
-def graphpays(indice, p1, p2):
-    masque=(df['Country name']==p1) | (df['Country name']==p2)
+def graphpays(indice, p1, *autres_pays):
     sub_df=df[[indice, "year",'Country name']]         #on crée la dataframe qui nous intéresse
-    sub_df[masque].plot(x="year")
+    sub_df=sub_df.T
+    sub_df[p1, *autres_pays].plot(x="year")
     plt.show()
 
-graphpays("Social support","Albania","Afghanistan")
+#graphpays("Social support","Albania","Afghanistan")
 
 #histogramme de la répartition du big indice
 def histbi(année):
