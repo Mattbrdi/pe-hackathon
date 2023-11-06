@@ -59,4 +59,6 @@ def corelation(pays):
     else: 
     table=df((df['country']= pays) & (df['year'] >= 2008) )
     L=table['taux']
-    
+
+##Pour obtenir des données significatives on renormalise
+
