@@ -70,18 +70,30 @@ for colonne in col:
 # +
 X=[i for i in range(2005,2021)] 
 
+##L'algorithme qui suit vise à tracer pour un pays donné et sur la période 2008 2020 
+##l'évolution des écarts quadratique moyens entre indice de bonheur global et taux de suicide. 
+##L'existence d'ne faible pente d'évolution (voire d'une constante) traduit l'existance d'une corrélation
+##S'il n'y a pas de pente ou que celle-ci est sensiblement pentu, c'est qu'au moins dans ce pays suicides et 
+##bonheur ne sont pas corrélés 
 def corelation(pays):
-    test1=df_sum['country'].isna()
-    test2=df['Country name'].insa()
-    if test1(pays) == True:
+    country_count1=df_sum['country'].str.contains(pays).sum()
+    country_count2=df['Country name'].str.contains(pays).sum()
+    if country_count1 ==0:
         return 'pas de données pour ce pays'
+    if country_count2 ==0:
+        return 'pas de données pour ce pays'
+    ##Vérifications pour s'assurer que l'on possède les données nécessaires dans les deux tables
     else: 
     table=df_sum((df_sum['country']= pays) & (df_sum['year'] >= 2008) )
     L1=table['taux']
+    ##C'est la table des taux de suicide pour le pays donné entre les années 2008 et 2020 pour 
+    ##être compatible avec l'autre table
     table2=df(df['Country name'] = pays) & (df_sum['year'] <= 2020)) 
     L2=table['big indice']
+    ##C'est la table du big indice sur la même période, notons que les data frame sont rangés par 
+    ##date croissante et que grâce à ça l'on a s'évite des étable de traitement de donnée suplémentaires
     assert len(L1) == len(L2)
+    ##dernière vérification de compatibilité
     L3= [ecart_quadra(x,y) for x,y in L1,L2] 
     plt.plot(X,L3) 
-
-##Pour obtenir des données significatives on renormalise
+    plt.show() 
