@@ -93,7 +93,7 @@ def corelation(pays):
     ##C'est la table du big indice sur la même période, notons que les data frame sont rangés par 
     ##date croissante et que grâce à ça l'on a s'évite des étable de traitement de donnée suplémentaires
     assert len(L1) == len(L2)
-    ##dernière vérification de compatibilité
+    ##dernière vérification de compatibilités
     L3= [ecart_quadra(x,y) for x,y in L1,L2] 
     plt.plot(X,L3) 
-    plt.show() 
+    plt.show()
