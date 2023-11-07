@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import pandas as pd 
 suicide = "Suicide_base.csv"
-df = pd.read_csv(suicide)
+df1 = pd.read_csv(suicide)
 ##Importation de librairie usuelles"
 ##On note df le dataframe que nous utilisons ici
 
@@ -14,11 +14,11 @@ df = pd.read_csv(suicide)
 # Celle-ci répertorie les suicides pour différents pays entre 1985 et 2020 en fonction de divers caractéristiques notamment la tranche d'âge. 
 #
 
-df.head(10)
+df1.head(10)
 
 # Cette base de donnée est très détaillée nous allons la travailler pour la simplifier un peu. Nous n'avons pour ce que l'on veut faire uniquement besoin d'une colonne pays, année, et taux de suicide total (c'est-à-dire qu'on ne classe pas par classe d'âge). 
 
-df_sum=df[['country','suicides_no','population','year']].groupby(['country','year']).sum()
+df_sum=df1[['country','suicides_no','population','year']].groupby(['country','year']).sum()
 df_sum['taux']=df_sum['suicides_no']/df_sum['population']
 ##On crée la base de donnée df_sum qui fait l'opération décrite précedemment et "simplifie" donc la base à notre usage. 
 
@@ -50,15 +50,38 @@ def ecart_quadra(x,y):
 
 
 # +
+##On reprend le code du projet_happiness : 
+url = "DataForTable2.1WHR2023.csv"
+df = pd.read_csv(url)
+df = df.ffill()
+col = ['Log GDP per capita','Social support', 'Healthy life expectancy at birth',
+       'Freedom to make life choices',
+'Generosity','Perceptions of corruption']
+for colonne in col :
+    max = df[colonne].max()
+    min = df[colonne].min()
+    df[colonne] = (df[colonne]-min)/(max-min)
+    df["big indice"] = 0
+for colonne in col: 
+    df["big indice"] = df["big indice"]+(df[colonne]/6)
+
+
+
+# +
 X=[i for i in range(2005,2021)] 
 
 def corelation(pays):
-    test=df_sum.isna()
-    if test(pays) == True:
+    test1=df_sum['country'].isna()
+    test2=df['Country name'].insa()
+    if test1(pays) == True:
         return 'pas de données pour ce pays'
     else: 
-    table=df((df['country']= pays) & (df['year'] >= 2008) )
-    L=table['taux']
+    table=df_sum((df_sum['country']= pays) & (df_sum['year'] >= 2008) )
+    L1=table['taux']
+    table2=df(df['Country name'] = pays) & (df_sum['year'] <= 2020)) 
+    L2=table['big indice']
+    assert len(L1) == len(L2)
+    L3= [ecart_quadra(x,y) for x,y in L1,L2] 
+    plt.plot(X,L3) 
 
 ##Pour obtenir des données significatives on renormalise
-
